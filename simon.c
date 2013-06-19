@@ -1,5 +1,5 @@
 /*
-demo.c
+simon.c
 test program for attiny2313a on stk500v2 dev board
 let's make the lights dance
 */
