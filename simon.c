@@ -52,21 +52,27 @@ void intro(void) {
 
 
 int stage(int level) {
-	uint8_t a, b, i;
-	b = 1;
+	uint8_t i;
+	uint8_t field[level];
 
-	for (i = level; i>0; i--) {
-		a = rand() % 8;
-		PORTB = ~(1<<a);
+	for (i = 0; i<level; i++) {
+		field[i] = rand() % 7;
+	}
+	for (i = 0; i<level; i++) {
+		PORTB = ~(1<<field[i]);
 		delay_ms(MED);
 		PORTB = 0xFF;
-		while (b){
-			if (bit_is_clear()) {
-				
-				b=0;
-			}
+		delay_ms(QUICK);
+	}
+	i=0;
+	while (i<level){
+		if (bit_is_clear(PIND,field[i])) {
+			PORTB = ~(1<<field[i]);
+			delay_ms(SLOW);
+			i++;
+			PORTB = 0xFF;
+			delay_ms(QUICK);
 		}
-
 	}
 	return 1;
 }
@@ -80,11 +86,14 @@ int main(void) {
 
 	DDRD = 0; //all the.. inputs!
 	PORTD = 0xFF; //pull ups everywhere. DYEL?
-	srand(500);
+	srand(5);
 
 	intro();
 	delay_ms(SLOW);
-	stage(lvl);
-	while (1){
+	while (stage(lvl)){
+		lvl++;
+		blink();
+		blink();
+		delay_ms(SLOW);
 	}
 }
