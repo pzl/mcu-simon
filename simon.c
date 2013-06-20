@@ -57,8 +57,6 @@ int stage(int level) {
 
 	for (i = 0; i<level; i++) {
 		field[i] = rand() % 7;
-	}
-	for (i = 0; i<level; i++) {
 		PORTB = ~(1<<field[i]);
 		delay_ms(MED);
 		PORTB = 0xFF;
